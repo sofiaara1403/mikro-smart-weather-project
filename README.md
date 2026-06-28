@@ -3,8 +3,8 @@
 UAS Sistem Mikrokontroller 
 Kelompok 3 :
 
-Nama :
-Npm : 
+Nama : BUDI AZHAR EKA ARDIANTO
+Npm : 23552O11397
 
 Nama : M Fikri Nasrulloh 
 Npm :  23552011337
