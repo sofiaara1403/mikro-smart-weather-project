@@ -1,186 +1,182 @@
-let client;
+// ======================================
+// MQTT CONFIG
+// ======================================
+
+const options = {
+
+    username: "syopijh",
+
+    password: "Treasure12pjh",
+
+    reconnectPeriod: 3000,
+
+    connectTimeout: 10000,
+
+    clean: true
+
+};
+
+const client = mqtt.connect(
+
+"wss://df9575cf81dd4ea39cc9fe88f106c3ab.s1.eu.hivemq.cloud:8884/mqtt",
+
+options
+
+);
+
+// ======================================
+// HTML
+// ======================================
 
 const mqttStatus =
 document.getElementById("mqttStatus");
 
-const temperatureEl =
-document.getElementById("temperature");
+const tempValue =
+document.getElementById("tempValue");
 
-const humidityEl =
-document.getElementById("humidity");
+const humValue =
+document.getElementById("humValue");
 
-const espStatus =
-document.getElementById("espStatus");
+const distanceValue =
+document.getElementById("distanceValue");
 
-const weatherStatus =
-document.getElementById("weatherStatus");
+const statusValue =
+document.getElementById("statusValue");
 
-const lastUpdate =
-document.getElementById("lastUpdate");
+const device =
+document.getElementById("device");
 
-const alertBox =
-document.getElementById("alertBox");
+const time =
+document.getElementById("time");
 
-const logContainer =
-document.getElementById("logContainer");
+const encryptedTemp =
+document.getElementById("encryptedTemp");
 
-const labels = [];
-const tempData = [];
-const humData = [];
+const decryptedTemp =
+document.getElementById("decryptedTemp");
+
+const logTable =
+document.getElementById("logTable");
+
+// ======================================
+// CHART
+// ======================================
 
 const ctx =
 document.getElementById("weatherChart");
 
-const chart = new Chart(ctx,{
+const weatherChart =
+new Chart(ctx,{
+
 type:"line",
+
 data:{
-labels:labels,
+
+labels:[],
+
 datasets:[
+
 {
-label:"Temperature (°C)",
-data:tempData,
-borderColor:"#38bdf8",
-backgroundColor:"rgba(56,189,248,.2)",
-fill:true,
+
+label:"Temperature",
+
+data:[],
+
 borderWidth:3,
-tension:.4
+
+tension:.3
+
 },
+
 {
-label:"Humidity (%)",
-data:humData,
-borderColor:"#f43f5e",
-backgroundColor:"rgba(244,63,94,.15)",
-fill:true,
+
+label:"Humidity",
+
+data:[],
+
 borderWidth:3,
-tension:.4
+
+tension:.3
+
 }
+
 ]
+
 },
+
 options:{
+
 responsive:true,
-maintainAspectRatio:false,
+
+animation:true,
+
 plugins:{
+
 legend:{
+
 labels:{
+
 color:"white"
+
 }
+
 }
+
 },
+
 scales:{
+
 x:{
-ticks:{
-color:"white"
-}
+
+ticks:{color:"white"}
+
 },
+
 y:{
-ticks:{
-color:"white"
+
+ticks:{color:"white"}
+
 }
+
 }
+
 }
-}
+
 });
 
-function connectMQTT(){
-
-const host =
-"wss://df9575cf81dd4ea39cc9fe88f106c3ab.s1.eu.hivemq.cloud:8884/mqtt";
-
-client = mqtt.connect(host,{
-username:"syopijh",
-password:"Treasure12pjh"
-});
+// ======================================
+// CONNECT
+// ======================================
 
 client.on("connect",()=>{
 
-mqttStatus.innerHTML =
-"🟢 MQTT Connected";
+console.log("MQTT Connected");
 
-mqttStatus.classList.remove("disconnected");
-mqttStatus.classList.add("connected");
+mqttStatus.innerHTML="Connected";
+
+mqttStatus.className="badge bg-success";
 
 client.subscribe("weather/data");
 
 });
 
-client.on("message",(topic,message)=>{
+// ======================================
+// DISCONNECT
+// ======================================
 
-const data =
-JSON.parse(message.toString());
+client.on("reconnect",()=>{
 
-const temp =
-data.temperature - 10;
+mqttStatus.innerHTML="Reconnecting";
 
-const hum =
-data.humidity - 10;
+mqttStatus.className="badge bg-warning";
 
-temperatureEl.innerHTML =
-temp.toFixed(1) + " °C";
+});
 
-humidityEl.innerHTML =
-hum.toFixed(1) + " %";
+client.on("offline",()=>{
 
-espStatus.innerHTML =
-"🟢 Online";
+mqttStatus.innerHTML="Offline";
 
-const time =
-new Date().toLocaleTimeString();
-
-lastUpdate.innerHTML =
-time;
-
-if(temp > 30){
-
-weatherStatus.innerHTML =
-"🔥 Hot";
-
-alertBox.innerHTML =
-"⚠ High Temperature Detected";
-
-}
-else if(temp < 20){
-
-weatherStatus.innerHTML =
-"❄ Cold";
-
-alertBox.innerHTML =
-"⚠ Low Temperature";
-
-}
-else{
-
-weatherStatus.innerHTML =
-"✅ Normal";
-
-alertBox.innerHTML =
-"✅ Environment Stable";
-
-}
-
-labels.push(time);
-tempData.push(temp);
-humData.push(hum);
-
-if(labels.length > 20){
-
-labels.shift();
-tempData.shift();
-humData.shift();
-
-}
-
-chart.update();
-
-const log =
-document.createElement("div");
-
-log.className =
-"log-item";
-
-log.innerHTML =
-`[${time}] Temp : ${temp.toFixed(1)}°C | Hum : ${hum.toFixed(1)}%`;
-
-logContainer.prepend(log);
+mqttStatus.className="badge bg-danger";
 
 });
 
@@ -190,29 +186,134 @@ console.log(err);
 
 });
 
+// ======================================
+// RECEIVE DATA
+// ======================================
+
+client.on("message",(topic,message)=>{
+
+let data =
+JSON.parse(message.toString());
+
+//==========================
+// DECRYPT
+//==========================
+
+let temp =
+data.temperature-10;
+
+let hum =
+data.humidity-10;
+
+let distance =
+data.distance-10;
+
+//==========================
+
+tempValue.innerHTML=
+temp.toFixed(1)+" °C";
+
+humValue.innerHTML=
+hum.toFixed(1)+" %";
+
+distanceValue.innerHTML=
+distance+" cm";
+
+statusValue.innerHTML=
+data.status;
+
+device.innerHTML=
+data.device;
+
+time.innerHTML=
+data.time;
+
+encryptedTemp.innerHTML=
+data.temperature.toFixed(1)+" °C";
+
+decryptedTemp.innerHTML=
+temp.toFixed(1)+" °C";
+
+//==========================
+// STATUS COLOR
+//==========================
+
+statusValue.className="";
+
+if(data.status=="Safe"){
+
+statusValue.classList.add("safe");
+
 }
 
-function disconnectMQTT(){
+else if(data.status=="Nearby"){
 
-if(client){
-
-client.end();
-
-mqttStatus.innerHTML =
-"🔴 MQTT Disconnected";
-
-mqttStatus.classList.remove("connected");
-mqttStatus.classList.add("disconnected");
-
-espStatus.innerHTML =
-"🔴 Offline";
+statusValue.classList.add("nearby");
 
 }
 
-}
+else{
 
-function clearLogs(){
-
-logContainer.innerHTML = "";
+statusValue.classList.add("close");
 
 }
+
+//==========================
+// CHART
+//==========================
+
+weatherChart.data.labels.push(data.time.substring(11));
+
+weatherChart.data.datasets[0].data.push(temp);
+
+weatherChart.data.datasets[1].data.push(hum);
+
+if(weatherChart.data.labels.length>15){
+
+weatherChart.data.labels.shift();
+
+weatherChart.data.datasets[0].data.shift();
+
+weatherChart.data.datasets[1].data.shift();
+
+}
+
+weatherChart.update();
+
+//==========================
+// TABLE
+//==========================
+
+let row=`
+
+<tr>
+
+<td>${data.time}</td>
+
+<td>${temp.toFixed(1)} °C</td>
+
+<td>${hum.toFixed(1)} %</td>
+
+<td>${distance} cm</td>
+
+<td>${data.status}</td>
+
+</tr>
+
+`;
+
+logTable.insertAdjacentHTML(
+
+"afterbegin",
+
+row
+
+);
+
+if(logTable.rows.length>10){
+
+logTable.deleteRow(10);
+
+}
+
+});
