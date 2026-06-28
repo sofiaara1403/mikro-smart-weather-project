@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Weather Monitoring</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<h1>🌦 Smart Weather Monitoring</h1>
+
+<p>ESP32 • MQTT • HiveMQ Cloud • Security Monitoring</p>
+
+<h3 class="subtitle">
+Realtime IoT Weather Dashboard
+</h3>
+
+</header>
+
+<div id="mqttStatus" class="status disconnected">
+🔴 MQTT Disconnected
+</div>
+
+<div id="alertBox" class="alert-box">
+✅ Environment Stable
+</div>
+
+<section class="cards">
+
+<div class="card">
+<h3>🌡 Temperature</h3>
+<div id="temperature" class="value">-- °C</div>
+</div>
+
+<div class="card">
+<h3>💧 Humidity</h3>
+<div id="humidity" class="value">-- %</div>
+</div>
+
+<div class="card">
+<h3>📡 ESP32 Status</h3>
+<div id="espStatus" class="value-small">
+Waiting...
+</div>
+</div>
+
+<div class="card">
+<h3>🌤 Weather</h3>
+<div id="weatherStatus" class="value-small">
+Unknown
+</div>
+</div>
+
+<div class="card">
+<h3>🕒 Last Update</h3>
+<div id="lastUpdate" class="value-small">
+--
+</div>
+</div>
+
+<div class="card">
+<h3>🔐 Security</h3>
+<div class="value-small">
+Encryption Active<br>
+Key = +10
+</div>
+</div>
+
+</section>
+
+<section class="actions">
+
+<button onclick="connectMQTT()">
+Connect MQTT
+</button>
+
+<button onclick="disconnectMQTT()">
+Disconnect MQTT
+</button>
+
+<button onclick="clearLogs()">
+Clear Logs
+</button>
+
+</section>
+
+<section class="chart-box">
+
+<h2>📈 Realtime Monitoring</h2>
+
+<canvas id="weatherChart"></canvas>
+
+</section>
+
+<section class="logs">
+
+<h2>📜 Data Logs</h2>
+
+<div id="logContainer"></div>
+
+</section>
+
+<footer>
+
+UAS Sistem Mikrokontroler 2026<br>
+ESP32 + DHT22 + MQTT + HiveMQ Cloud
+
+</footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
