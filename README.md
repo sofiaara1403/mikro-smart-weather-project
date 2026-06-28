@@ -6,8 +6,8 @@ Kelompok 3 :
 Nama :
 Npm : 
 
-Nama : 
-Npm :
+Nama : M Fikri Nasrulloh 
+Npm :  23552011337
 
 Nama : Sofia Risa Aulia
 Npm : 23552011299
