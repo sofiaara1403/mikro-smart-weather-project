@@ -84,4 +84,20 @@ hardware/
 
 ---
 
+# 🌐 Software & Technologies
+
+- Arduino IDE
+- ESP32
+- HTML5
+- CSS3
+- JavaScript
+- Bootstrap 5
+- Chart.js
+- MQTT.js
+- HiveMQ Cloud
+- Git
+- GitHub
+
+---
+
 
