@@ -2,9 +2,16 @@
 #include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 #include <DHT.h>
+#include <time.h>
 
 #define DHTPIN 4
 #define DHTTYPE DHT22
+
+// =========================
+// HY-SRF05
+// =========================
+#define TRIG_PIN 5
+#define ECHO_PIN 18
 
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -27,6 +34,15 @@ const char* mqtt_pass = "Treasure12pjh";
 
 WiFiClientSecure espClient;
 PubSubClient client(espClient);
+
+const String deviceID = "ESP32-01";
+
+// =========================
+// NTP TIME
+// =========================
+const char* ntpServer = "pool.ntp.org";
+const long gmtOffset_sec = 7 * 3600;      // WIB (UTC+7)
+const int daylightOffset_sec = 0;
 
 // =========================
 // WIFI CONNECT
@@ -97,6 +113,30 @@ void reconnect() {
 }
 
 // =========================
+// READ DISTANCE
+// =========================
+long readDistance() {
+
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+
+  digitalWrite(TRIG_PIN, LOW);
+
+  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
+
+  if(duration == 0){
+    return -1;
+  }
+
+  long distance = duration * 0.0343 / 2;
+
+  return distance;
+}
+
+// =========================
 // SETUP
 // =========================
 void setup() {
@@ -111,10 +151,31 @@ void setup() {
   Serial.println("================================");
 
   dht.begin();
-
   Serial.println("DHT22 Initialized");
+  
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  Serial.println("HY-SRF05 Initialized");
 
   setupWiFi();
+
+  configTime(
+  gmtOffset_sec,
+  daylightOffset_sec,
+  ntpServer
+);
+
+Serial.println("Waiting NTP Time...");
+
+struct tm timeinfo;
+
+while (!getLocalTime(&timeinfo)) {
+  Serial.print(".");
+  delay(500);
+}
+
+Serial.println("");
+Serial.println("NTP Time Synced!");
 
   espClient.setInsecure();
 
@@ -150,6 +211,51 @@ void loop() {
   float humidity =
   dht.readHumidity();
 
+  long distance =
+  readDistance();
+
+  String objectStatus;
+
+if(distance == -1){
+
+  objectStatus = "No Object";
+
+}
+else if(distance <= 20){
+
+  objectStatus = "Very Close";
+
+}
+else if(distance <= 50){
+
+  objectStatus = "Nearby";
+
+}
+else{
+
+  objectStatus = "Safe";
+
+}
+
+struct tm timeinfo;
+
+String timestamp = "Unknown";
+
+if (getLocalTime(&timeinfo)) {
+
+  char buffer[25];
+
+  strftime(
+    buffer,
+    sizeof(buffer),
+    "%Y-%m-%d %H:%M:%S",
+    &timeinfo
+  );
+
+  timestamp = String(buffer);
+
+}
+
   if (
     isnan(temperature) ||
     isnan(humidity)
@@ -167,13 +273,20 @@ void loop() {
   float encryptedHum =
   humidity + 10;
 
-  String payload =
-    "{\"temperature\":"
-    + String(encryptedTemp)
-    + ",\"humidity\":"
-    + String(encryptedHum)
-    + "}";
+  long encryptedDistance =
+  distance + 10;
 
+
+String payload =
+"{\"device\":\"" + deviceID +
+"\",\"time\":\"" + String(timestamp) + "\"" +
+",\"temperature\":" + String(encryptedTemp,1) +
+",\"humidity\":" + String(encryptedHum,1) +
+",\"distance\":" + String(encryptedDistance) +
+",\"status\":\"" + objectStatus +
+"\"}";
+  
+  
   Serial.println("--------------------------------");
   Serial.print("Temp : ");
   Serial.print(temperature);
@@ -183,15 +296,28 @@ void loop() {
   Serial.print(humidity);
   Serial.println(" %");
 
-  Serial.print("Payload : ");
-  Serial.println(payload);
+  Serial.print("Distance : ");
+Serial.print(distance);
+Serial.println(" cm");
 
-  client.publish(
+Serial.print("Status : ");
+Serial.println(objectStatus);
+
+Serial.print("Time : ");
+Serial.println(timestamp);
+
+Serial.println("Payload :");
+Serial.println(payload);
+
+ if(client.publish(
     "weather/data",
     payload.c_str()
-  );
-
-  Serial.println("Published to MQTT");
+)){
+    Serial.println("Published to MQTT");
+}
+else{
+    Serial.println("Failed Publish");
+}
 
   delay(5000);
 }
