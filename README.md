@@ -1,16 +1,14 @@
 <img width="1509" height="365" alt="WhatsApp Image 2026-06-28 at 20 51 14 (1)" src="https://github.com/user-attachments/assets/3b7130b0-21bc-4123-b220-75262a022fea" />
 
 UAS Sistem Mikrokontroller 
-Kelompok 3 :
 
-Nama : BUDI AZHAR EKA ARDIANTO
-Npm : 23552O11397
+(Kelompok 3) 
 
-Nama : M Fikri Nasrulloh 
-Npm :  23552011337
+Nama : BUDI AZHAR EKA ARDIANTO (23552O11397)
 
-Nama : Sofia Risa Aulia
-Npm : 23552011299
+Nama : M Fikri Nasrulloh (23552011337)
+
+Nama : Sofia Risa Aulia (23552011299)
 
 TIF 23 CNS A
 
@@ -36,9 +34,54 @@ Tujuan utama proyek ini adalah:
 - Memonitor kelembapan udara
 - Mendeteksi objek di sekitar perangkat
 - Mengirim data sensor secara aman menggunakan MQTT TLS
+
+---
+
+# ✨ Features
+
+✅ Real-Time Temperature Monitoring
+
+✅ Real-Time Humidity Monitoring
+
+✅ Object Distance Detection
+
+✅ Object Status Detection
+
+✅ Secure MQTT Communication (TLS)
+
+✅ Simple Data Encryption
+
+✅ Real-Time Dashboard
+
+✅ Weather Chart
+
+✅ Recent Data Log
+
+✅ Device Information
+
+✅ Last Update Time (NTP)
+
 - Menampilkan data pada dashboard web secara real-time
 - Memberikan visualisasi data dalam bentuk grafik
 - Menyimpan histori pembacaan sensor
 
 ---
+
+# 🛠 Hardware Components
+
+| Component | Function |
+|------------|----------|
+| ESP32 | Microcontroller |
+| DHT22 | Temperature & Humidity Sensor |
+| HY-SRF05 | Object Distance Sensor |
+| Breadboard | Prototype Circuit |
+| Jumper Wire | Electrical Connection |
+| USB Cable | Power Supply |
+
+📁 Detail hardware dapat dilihat pada folder:
+
+hardware/
+
+---
+
 
