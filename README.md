@@ -105,4 +105,138 @@ hardware/
 
 ---
 
+# 🔄 System Workflow
+
+1. ESP32 melakukan koneksi ke jaringan WiFi.
+2. ESP32 membaca data dari sensor DHT22.
+3. ESP32 membaca jarak menggunakan HY-SRF05.
+4. Sistem menentukan status objek.
+5. Data dienkripsi.
+6. Payload JSON dibuat.
+7. Payload dikirim ke HiveMQ Cloud menggunakan MQTT TLS.
+8. Dashboard melakukan subscribe pada topic MQTT.
+9. Dashboard menerima payload.
+10. Dashboard melakukan dekripsi.
+11. Dashboard memperbarui tampilan secara real-time.
+12. Data ditampilkan pada grafik dan tabel log.
+
+---
+
+# 📦 JSON Payload
+
+```json
+{
+    "device":"ESP32-01",
+    "time":"2026-06-28 15:30:12",
+    "temperature":37.8,
+    "humidity":82.5,
+    "distance":28,
+    "status":"Very Close"
+}
+
+---
+
+🔐 Security
+
+Untuk meningkatkan keamanan komunikasi data, sistem menerapkan:
+
+MQTT over TLS
+WebSocket Secure (WSS)
+Enkripsi data sebelum publish
+Dekripsi data pada dashboard
+
+Walaupun algoritma enkripsi yang digunakan masih sederhana untuk kebutuhan pembelajaran, arsitektur sistem telah dirancang agar mudah dikembangkan menggunakan algoritma enkripsi yang lebih kuat seperti AES.
+
+---
+
+📊 Dashboard
+
+Dashboard menyediakan informasi:
+
+Temperature
+Humidity
+Distance
+Object Status
+Device ID
+Last Update
+Encryption Status
+Real-Time Chart
+Recent Data Log
+
+Dashboard menerima data secara langsung dari HiveMQ Cloud menggunakan MQTT WebSocket sehingga tidak memerlukan proses refresh halaman.
+
+---
+
+📁 Project Structure
+mikro-smart-weather-project
+
+├── arduino
+│   └── smart_weather.ino
+│
+├── dashboard
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+│
+├── hardware
+│   ├── README.md
+│   ├── wiring-diagram.png
+│   └── photos
+│
+├── mqtt
+│   ├── README.md
+│   └── mqtt-flow.png
+│
+├── screenshots
+│
+├── docs
+│
+└── README.md
+
+---
+
+🚀 Installation
+1 Clone Repository https://github.com/sofiaara1403/mikro-smart-weather-project.git
+
+2 Upload Program
+- Install Arduino IDE
+- Install ESP32 Board
+- Install Library
+- DHT
+- PubSubClient
+- WiFi
+- Upload program ke ESP32
+
+3 Jalankan Dashboard
+  dashboard/index.html
+
+atau menggunakan
+Live Server VS Code
+
+---
+
+👨‍💻 Team Members
+| Name   | Responsibility                                               |
+| ------ | ------------------------------------------------------------ |
+| Syopii | ESP32 Programming, Dashboard Development, System Integration |
+| Budi   | Hardware Assembly & Hardware Documentation                   |
+| Fikri  | MQTT Configuration & MQTT Documentation                      |
+
+---
+
+📈 Future Development
+
+Beberapa pengembangan yang dapat dilakukan:
+
+Database Integration
+Login Authentication
+Mobile Application
+Email Notification
+Telegram Notification
+ThingSpeak Integration
+Firebase Integration
+AI Weather Prediction
+Machine Learning Analysis
+
+---
 
