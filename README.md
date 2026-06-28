@@ -100,4 +100,9 @@ hardware/
 
 ---
 
+# ⚙ System Architecture
+<img width="210" height="330" alt="Untitled Diagram drawio (3)" src="https://github.com/user-attachments/assets/64f6b085-a6b0-4b68-804f-65b3e8500e67" />
+
+---
+
 
