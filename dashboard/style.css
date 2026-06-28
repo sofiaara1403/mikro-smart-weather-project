@@ -1,199 +1,391 @@
+/* ===========================
+   GOOGLE FONT
+=========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ===========================
+   GLOBAL
+=========================== */
+
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
 
 body{
-background:
-linear-gradient(
-135deg,
-#0f172a,
-#111827,
-#1e293b
-);
-color:white;
-min-height:100vh;
+
+    background:#0f172a;
+    color:white;
+
 }
 
-.container{
-width:92%;
-max-width:1500px;
-margin:auto;
-padding:25px;
+/* ===========================
+   NAVBAR
+=========================== */
+
+.navbar{
+
+    background:#111827;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
 }
 
-header{
-text-align:center;
-margin-bottom:30px;
+.navbar-brand{
+
+    font-weight:600;
+
+    font-size:22px;
+
 }
 
-header h1{
-font-size:3rem;
-margin-bottom:10px;
+/* ===========================
+   CARD
+=========================== */
+
+.dashboard-card{
+
+    background:rgba(30,41,59,.9);
+
+    border:none;
+
+    border-radius:20px;
+
+    color:white;
+
+    transition:.35s;
+
+    box-shadow:
+
+    0 8px 30px rgba(0,0,0,.25);
+
 }
 
-header p{
-color:#94a3b8;
+.dashboard-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+
+    0 15px 35px rgba(0,0,0,.45);
+
 }
 
-.subtitle{
-margin-top:10px;
-color:#38bdf8;
-font-weight:500;
+/* ===========================
+   CARD ICON
+=========================== */
+
+.card-icon{
+
+    font-size:48px;
+
+    margin-bottom:15px;
+
 }
 
-.status{
-padding:18px;
-border-radius:15px;
-font-weight:bold;
-text-align:center;
-margin-bottom:20px;
-font-size:1.1rem;
+.temp-icon{
+
+    color:#ff5f6d;
+
 }
 
-.connected{
-background:#16a34a;
+.hum-icon{
+
+    color:#00d2ff;
+
 }
 
-.disconnected{
-background:#dc2626;
+.dis-icon{
+
+    color:#00ffae;
+
 }
 
-.alert-box{
-background:#f59e0b;
-padding:15px;
-border-radius:15px;
-margin-bottom:25px;
-font-weight:bold;
-text-align:center;
-color:black;
+.status-icon{
+
+    color:#ffd43b;
+
 }
 
-.cards{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-bottom:25px;
+/* ===========================
+   VALUE
+=========================== */
+
+h2{
+
+    font-size:38px;
+
+    font-weight:bold;
+
 }
 
-.card{
-background:rgba(30,41,59,.85);
-border-radius:20px;
-padding:25px;
-backdrop-filter:blur(10px);
-box-shadow:
-0 10px 25px rgba(0,0,0,.3);
-transition:.3s;
+/* ===========================
+   CARD HEADER
+=========================== */
+
+.card-header{
+
+    background:#182235;
+
+    border:none;
+
+    font-weight:600;
+
+    border-radius:20px 20px 0 0 !important;
+
 }
 
-.card:hover{
-transform:translateY(-8px);
+/* ===========================
+   TABLE
+=========================== */
+
+.table{
+
+    margin-bottom:0;
+
 }
 
-.card h3{
-margin-bottom:15px;
-color:#cbd5e1;
+.table thead{
+
+    color:#61dafb;
+
 }
 
-.value{
-font-size:2.5rem;
-font-weight:bold;
+.table td{
+
+    vertical-align:middle;
+
 }
 
-.value-small{
-font-size:1rem;
-line-height:1.8;
+/* ===========================
+   MQTT STATUS
+=========================== */
+
+#mqttStatus{
+
+    font-size:14px;
+
+    padding:8px 16px;
+
 }
 
-.actions{
-display:flex;
-gap:15px;
-flex-wrap:wrap;
-margin-bottom:25px;
+/* ===========================
+   DEVICE
+=========================== */
+
+#device{
+
+    font-size:22px;
+
+    color:#61dafb;
+
 }
 
-.actions button{
-border:none;
-padding:14px 22px;
-border-radius:12px;
-cursor:pointer;
-font-weight:bold;
-transition:.3s;
+/* ===========================
+   TIME
+=========================== */
+
+#time{
+
+    font-size:18px;
+
 }
 
-.actions button:hover{
-transform:scale(1.05);
+/* ===========================
+   ENCRYPTION
+=========================== */
+
+#encryptedTemp{
+
+    color:#ff7675;
+
+    font-weight:bold;
+
 }
 
-.actions button:nth-child(1){
-background:#16a34a;
-color:white;
+#decryptedTemp{
+
+    color:#55efc4;
+
+    font-weight:bold;
+
 }
 
-.actions button:nth-child(2){
-background:#dc2626;
-color:white;
+/* ===========================
+   STATUS COLOR
+=========================== */
+
+.safe{
+
+    color:#00ff99;
+
 }
 
-.actions button:nth-child(3){
-background:#2563eb;
-color:white;
+.nearby{
+
+    color:#ffc107;
+
 }
 
-.chart-box{
-background:#1e293b;
-padding:25px;
-border-radius:20px;
-margin-bottom:25px;
-height:500px;
+.close{
+
+    color:#ff3b30;
+
 }
 
-.chart-box h2{
-margin-bottom:15px;
+/* ===========================
+   CHART
+=========================== */
+
+canvas{
+
+    width:100% !important;
+
+    height:350px !important;
+
 }
 
-.logs{
-background:#1e293b;
-padding:25px;
-border-radius:20px;
+/* ===========================
+   BADGE
+=========================== */
+
+.badge{
+
+    font-size:15px;
+
 }
 
-.logs h2{
-margin-bottom:15px;
+/* ===========================
+   SCROLLBAR
+=========================== */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
 }
 
-#logContainer{
-max-height:300px;
-overflow-y:auto;
+::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+    border-radius:10px;
+
 }
 
-.log-item{
-padding:12px;
-border-bottom:1px solid #334155;
+::-webkit-scrollbar-track{
+
+    background:#0f172a;
+
 }
 
-footer{
-margin-top:25px;
-text-align:center;
-color:#94a3b8;
-padding:20px;
+/* ===========================
+   ANIMATION
+=========================== */
+
+.dashboard-card{
+
+    animation:fadeUp .8s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+/* ===========================
+   DASHBOARD TITLE
+=========================== */
+
+.dashboard-title{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+}
+
+.dashboard-title h1{
+
+    font-size:38px;
+
+    font-weight:700;
+
+    color:#ffffff;
+
+    margin-bottom:12px;
+
+    letter-spacing:.5px;
+
+}
+
+.dashboard-title p{
+
+    color:#94a3b8;
+
+    font-size:17px;
+
+    max-width:850px;
+
+    margin:auto;
+
+    line-height:1.7;
+
 }
 
 @media(max-width:768px){
 
-header h1{
-font-size:2rem;
+   .dashboard-title h1{
+
+    font-size:28px;
+
 }
 
-.value{
-font-size:2rem;
+.dashboard-title p{
+
+    font-size:15px;
+
 }
 
-.chart-box{
-height:400px;
-}
+    h2{
+
+        font-size:28px;
+
+    }
+
+    .card-icon{
+
+        font-size:38px;
+
+    }
+
+    .navbar-brand{
+
+        font-size:18px;
+
+    }
 
 }
