@@ -37,6 +37,23 @@ Tujuan utama proyek ini adalah:
 
 ---
 
+# 🛠 Hardware Components
+
+| Component | Function |
+|------------|----------|
+| ESP32 | Microcontroller |
+| DHT22 | Temperature & Humidity Sensor |
+| HY-SRF05 | Object Distance Sensor |
+| Breadboard | Prototype Circuit |
+| Jumper Wire | Electrical Connection |
+| USB Cable | Power Supply |
+
+📁 Detail hardware dapat dilihat pada folder:
+
+hardware/
+
+---
+
 # CARA KERJA 
 
 Cara kerja sistem dimulai ketika ESP32 terhubung ke WiFi, kemudian melakukan sinkronisasi waktu melalui NTP dan terhubung ke HiveMQ Cloud menggunakan protokol MQTT over TLS. Selanjutnya ESP32 membaca data dari sensor DHT22 (suhu dan kelembapan) serta HY-SRF05 (jarak objek), kemudian menentukan status objek berdasarkan jarak yang terdeteksi. Sebelum dikirim, data sensor disamarkan menggunakan metode offset +10 (obfuscation), lalu dikirim dalam format JSON ke HiveMQ Cloud melalui MQTT. Dashboard web menerima data tersebut secara real-time, melakukan proses decryption dengan mengurangi offset sebesar 10, kemudian menampilkan hasilnya berupa suhu, kelembapan, jarak, status objek, grafik, dan data log. Proses ini berlangsung otomatis setiap 5 detik sehingga informasi selalu diperbarui secara real-time.
@@ -69,23 +86,6 @@ Cara kerja sistem dimulai ketika ESP32 terhubung ke WiFi, kemudian melakukan sin
 - Menampilkan data pada dashboard web secara real-time
 - Memberikan visualisasi data dalam bentuk grafik
 - Menyimpan histori pembacaan sensor
-
----
-
-# 🛠 Hardware Components
-
-| Component | Function |
-|------------|----------|
-| ESP32 | Microcontroller |
-| DHT22 | Temperature & Humidity Sensor |
-| HY-SRF05 | Object Distance Sensor |
-| Breadboard | Prototype Circuit |
-| Jumper Wire | Electrical Connection |
-| USB Cable | Power Supply |
-
-📁 Detail hardware dapat dilihat pada folder:
-
-hardware/
 
 ---
 
