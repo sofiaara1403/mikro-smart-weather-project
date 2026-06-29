@@ -26,7 +26,7 @@ Selain berfungsi sebagai sistem monitoring cuaca sederhana, proyek ini juga mamp
 
 ---
 
-# 🎯 Objectives
+# Objectives
 
 Tujuan utama proyek ini adalah:
 
@@ -37,12 +37,12 @@ Tujuan utama proyek ini adalah:
 
 ---
 
-CARA KERJA 
+# CARA KERJA 
 
 Cara kerja sistem dimulai ketika ESP32 terhubung ke WiFi, kemudian melakukan sinkronisasi waktu melalui NTP dan terhubung ke HiveMQ Cloud menggunakan protokol MQTT over TLS. Selanjutnya ESP32 membaca data dari sensor DHT22 (suhu dan kelembapan) serta HY-SRF05 (jarak objek), kemudian menentukan status objek berdasarkan jarak yang terdeteksi. Sebelum dikirim, data sensor disamarkan menggunakan metode offset +10 (obfuscation), lalu dikirim dalam format JSON ke HiveMQ Cloud melalui MQTT. Dashboard web menerima data tersebut secara real-time, melakukan proses decryption dengan mengurangi offset sebesar 10, kemudian menampilkan hasilnya berupa suhu, kelembapan, jarak, status objek, grafik, dan data log. Proses ini berlangsung otomatis setiap 5 detik sehingga informasi selalu diperbarui secara real-time.
 
 ---
-# ✨ Features
+# Features
 
 ✅ Real-Time Temperature Monitoring
 
